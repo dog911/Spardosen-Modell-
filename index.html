@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spardosen-GmbH Rechner Plus</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#0f172a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Spardosen">
+    <meta name="description" content="Interaktiver Verkaufsrechner für Eichenau Rodelbahnstraße 15">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIlNwYXJkb3Nlbi1HbWJIIFJlY2huZXIiLAogICJzaG9ydF9uYW1lIjogIlNwYXJkb3NlbiIsCiAgImRlc2NyaXB0aW9uIjogIkludGVyYWtpdmVyIFZlcmthdWZzcmVjaG5lciBmw7xyIEVpY2hlbmF1IFJvZGVsYmFobnN0cmHDn2UgMTUiLAogICJzdGFydF91cmwiOiAiLyIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgInRoZW1lX2NvbG9yIjogIiMwZjE3MmEiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiMwZjE3MmEiLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJkYXRhOmltYWdlL3N2Zyt4bWwsJTNDc3ZnIHhtbG5zPSdodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2Zycgdmlld0JveD0nMCAwIDEwMCAxMDAnJTNFJTNDcmVjdCB3aWR0aD0nMTAwJyBoZWlnaHQ9JzEwMCcgZmlsbD0nJTIzMzhiZGY4Jy8lM0UlM0N0ZXh0IHg9JzUwJyB5PSc1NScgZm9udC1zaXplPSc1MCcgdGV4dC1hbmNob3I9J21pZGRsZScgZmlsbD0nJTIzMGYxNzJhJyBmb250LWZhbWlseT0nc2Fucy1zZXJpZicgZm9udC13ZWlnaHQ9J2JvbGQnJTNF8J+PpiUzQy90ZXh0JTNFJTNDL3N2ZyUzRSIsCiAgICAgICJzaXplcyI6ICIxOTJ4MTkyIiwKICAgICAgInR5cGUiOiAiaW1hZ2Uvc3ZnK3htbCIKICAgIH0sCiAgICB7CiAgICAgICJzcmMiOiAiZGF0YTppbWFnZS9zdmcreG1sLCUzQ3N2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxMDAgMTAwJyUzRSUzQ3JlY3Qgd2lkdGg9JzEwMCcgaGVpZ2h0PScxMDAnIGZpbGw9JyUyMzM4YmRmOCcvJTNFJTNDdGV4dCB4PSc1MCcgeT0nNTUnIGZvbnQtc2l6ZT0nNTAnIHRleHQtYW5jaG9yPSdtaWRkbGUnIGZpbGw9JyUyMzBmMTcyYScgZm9udC1mYW1pbHk9J3NhbnMtc2VyaWYnIGZvbnQtd2VpZ2h0PSdib2xkJyUzRfCfj6YlM0MvdGV4dCUzRSUzQy9zdmclM0UiLAogICAgICAic2l6ZXMiOiAiNTEyeDUxMiIsCiAgICAgICJ0eXBlIjogImltYWdlL3N2Zyt4bWwiCiAgICB9CiAgXQp9">
+    
+    <!-- Apple Touch Icon -->
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%2338bdf8'/%3E%3Ctext x='50' y='55' font-size='50' text-anchor='middle' fill='%230f172a' font-family='sans-serif' font-weight='bold'%3E🏦%3C/text%3E%3C/svg%3E">
+    
+    <style>
+        :root {
+            --color-bg: #0f172a;
+            --color-surface: #1e293b;
+            --color-text: #f1f5f9;
+            --color-text-secondary: #cbd5e1;
+            --color-primary: #38bdf8;
+            --color-success: #22c55e;
+            --color-warning: #f59e0b;
+            --color-danger: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--color-bg);
+            color: var(--color-text);
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: var(--color-primary);
+        }
+
+        .subtitle {
+            color: var(--color-text-secondary);
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+
+        .input-section {
+            background: var(--color-surface);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--color-text-secondary);
+            font-size: 0.9rem;
+        }
+
+        input[type="number"],
+        input[type="range"] {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--color-bg);
+            border: 2px solid rgba(56, 189, 248, 0.3);
+            border-radius: 8px;
+            color: var(--color-text);
+            font-size: 1.1rem;
+            transition: border-color 0.2s;
+        }
+
+        input[type="number"]:focus {
+            outline: none;
+            border-color: var(--color-primary);
+        }
+
+        input[type="range"] {
+            height: 8px;
+            padding: 0;
+            cursor: pointer;
+            -webkit-appearance: none;
+            appearance: none;
+            background: transparent;
+        }
+
+        input[type="range"]::-webkit-slider-track {
+            background: rgba(56, 189, 248, 0.2);
+            height: 8px;
+            border-radius: 4px;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: var(--color-primary);
+            border-radius: 50%;
+            cursor: pointer;
+            margin-top: -6px;
+        }
+
+        input[type="range"]::-moz-range-track {
+            background: rgba(56, 189, 248, 0.2);
+            height: 8px;
+            border-radius: 4px;
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: var(--color-primary);
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+        }
+
+        .value-display {
+            font-size: 0.85rem;
+            color: var(--color-primary);
+            margin-top: 0.25rem;
+            font-weight: 600;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .result-card {
+            background: var(--color-surface);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .result-card h3 {
+            font-size: 0.85rem;
+            color: var(--color-text-secondary);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .result-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--color-text);
+            margin-bottom: 0.25rem;
+        }
+
+        .result-value.success {
+            color: var(--color-success);
+        }
+
+        .result-value.warning {
+            color: var(--color-warning);
+        }
+
+        .result-value.danger {
+            color: var(--color-danger);
+        }
+
+        .result-detail {
+            font-size: 0.8rem;
+            color: var(--color-text-secondary);
+        }
+
+        .breakdown-section {
+            background: var(--color-surface);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+
+        .breakdown-section h2 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: var(--color-primary);
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+        }
+
+        .breakdown-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .breakdown-table tr {
+            border-bottom: 1px solid rgba(56, 189, 248, 0.1);
+        }
+
+        .breakdown-table tr:last-child {
+            border-bottom: none;
+        }
+
+        .breakdown-table td {
+            padding: 0.75rem 0;
+            font-size: 0.9rem;
+        }
+
+        .breakdown-table td:first-child {
+            color: var(--color-text-secondary);
+        }
+
+        .breakdown-table td:last-child {
+            text-align: right;
+            font-weight: 600;
+            color: var(--color-text);
+        }
+
+        .breakdown-table tr.total td {
+            padding-top: 1rem;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--color-primary);
+        }
+
+        .breakdown-table tr.section-header td {
+            padding-top: 1rem;
+            padding-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--color-primary);
+        }
+
+        .info-box {
+            background: rgba(56, 189, 248, 0.1);
+            border-left: 4px solid var(--color-primary);
+            padding: 1rem;
+            margin-top: 2rem;
+            border-radius: 4px;
+        }
+
+        .info-box p {
+            font-size: 0.9rem;
+            color: var(--color-text-secondary);
+            margin: 0;
+        }
+
+        .info-box.success {
+            background: rgba(34, 197, 94, 0.1);
+            border-left-color: var(--color-success);
+        }
+
+        .info-box.success p {
+            color: var(--color-success);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .input-section,
+            .breakdown-section {
+                padding: 1.25rem;
+            }
+
+            .result-value {
+                font-size: 1.4rem;
+            }
+
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏦 Spardosen-GmbH Rechner Plus</h1>
+        <p class="subtitle">Eichenau Rodelbahnstraße 15 | Vergleich: Spardosen vs. Vollentnahme</p>
+
+        <div class="input-section">
+            <div class="input-group">
+                <label for="verkaufspreis">Verkaufspreis (brutto)</label>
+                <input type="range" id="verkaufspreisRange" min="1500000" max="3500000" step="50000" value="2750000">
+                <input type="number" id="verkaufspreis" min="1500000" max="3500000" step="50000" value="2750000">
+                <div class="value-display">€/m²: <span id="preisProQm">1.720</span> €</div>
+            </div>
+
+            <div class="input-group">
+                <label for="schulden">Private Schulden (zu tilgen)</label>
+                <input type="range" id="schuldenRange" min="0" max="800000" step="10000" value="450000">
+                <input type="number" id="schulden" min="0" max="800000" step="10000" value="450000">
+            </div>
+        </div>
+
+        <div class="results-grid">
+            <div class="result-card">
+                <h3>🏆 Spardosen-Modell</h3>
+                <div class="result-value success" id="gesamtSpardosen">1.887.500 €</div>
+                <div class="result-detail">Gesamt verfügbar (empfohlen)</div>
+            </div>
+
+            <div class="result-card">
+                <h3>Privat (steuerfrei)</h3>
+                <div class="result-value" id="privatNetto">925.000 €</div>
+                <div class="result-detail">Nach Schuldenabzug</div>
+            </div>
+
+            <div class="result-card">
+                <h3>GmbH-Darlehen</h3>
+                <div class="result-value" id="gmbhDarlehen">962.500 €</div>
+                <div class="result-detail">Spardosen (steuerfrei)</div>
+            </div>
+
+            <div class="result-card">
+                <h3>⚠️ Vollentnahme</h3>
+                <div class="result-value warning" id="vollentnahme">708.591 €</div>
+                <div class="result-detail">Nach Ausschüttungssteuer</div>
+            </div>
+
+            <div class="result-card">
+                <h3>Gesamt bei Vollentnahme</h3>
+                <div class="result-value danger" id="gesamtVollentnahme">1.633.591 €</div>
+                <div class="result-detail">Mit GmbH-Liquidation</div>
+            </div>
+
+            <div class="result-card">
+                <h3>💰 Spardosen-Vorteil</h3>
+                <div class="result-value success" id="vorteil">253.909 €</div>
+                <div class="result-detail">Ersparnis durch Darlehen</div>
+            </div>
+        </div>
+
+        <div class="breakdown-section">
+            <h2>📊 Detaillierter Vergleich</h2>
+            <div class="comparison-grid">
+                <div>
+                    <h3 style="color: var(--color-success); margin-bottom: 1rem;">✅ SPARDOSEN-MODELL (EMPFOHLEN)</h3>
+                    <table class="breakdown-table">
+                        <tr>
+                            <td>Brutto-Verkaufspreis</td>
+                            <td id="breakdownBrutto1">2.750.000 €</td>
+                        </tr>
+                        <tr class="section-header">
+                            <td colspan="2">PRIVAT (50%)</td>
+                        </tr>
+                        <tr>
+                            <td>Privatanteil (steuerfrei)</td>
+                            <td id="breakdownPrivatAnteil1">1.375.000 €</td>
+                        </tr>
+                        <tr>
+                            <td>Minus: Schulden tilgen</td>
+                            <td id="breakdownSchulden1" style="color: var(--color-danger);">-450.000 €</td>
+                        </tr>
+                        <tr class="total">
+                            <td>= Privat verfügbar</td>
+                            <td id="breakdownPrivatVerfuegbar1">925.000 €</td>
+                        </tr>
+                        <tr class="section-header">
+                            <td colspan="2">GmbH (50%)</td>
+                        </tr>
+                        <tr>
+                            <td>GmbH-Anteil (50%)</td>
+                            <td id="breakdownGmbhAnteil1">1.375.000 €</td>
+                        </tr>
+                        <tr>
+                            <td>Minus: Steuern (30%)</td>
+                            <td id="breakdownGmbhSteuern1" style="color: var(--color-danger);">-412.500 €</td>
+                        </tr>
+                        <tr>
+                            <td>Nach Steuern</td>
+                            <td id="breakdownGmbhNachSteuern1">962.500 €</td>
+                        </tr>
+                        <tr>
+                            <td>Ausschüttungssteuer</td>
+                            <td style="color: var(--color-success);">0 € (Darlehen!)</td>
+                        </tr>
+                        <tr class="total">
+                            <td>= GmbH-Darlehen</td>
+                            <td id="breakdownGmbhVerfuegbar1">962.500 €</td>
+                        </tr>
+                        <tr class="section-header" style="border-top: 2px solid var(--color-success);">
+                            <td colspan="2" style="color: var(--color-success);">GESAMT VERFÜGBAR</td>
+                        </tr>
+                        <tr class="total">
+                            <td>Dir gesamt verfügbar</td>
+                            <td id="breakdownGesamt1" style="color: var(--color-success);">1.887.500 €</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div>
+                    <h3 style="color: var(--color-danger); margin-bottom: 1rem;">⚠️ VOLLENTNAHME (MIT LIQUIDATION)</h3>
+                    <table class="breakdown-table">
+                        <tr>
+                            <td>Brutto-Verkaufspreis</td>
+                            <td id="breakdownBrutto2">2.750.000 €</td>
+                        </tr>
+                        <tr class="section-header">
+                            <td colspan="2">PRIVAT (50%)</td>
+                        </tr>
+                        <tr>
+                            <td>Privatanteil (steuerfrei)</td>
+                            <td id="breakdownPrivatAnteil2">1.375.000 €</td>
+                        </tr>
+                        <tr>
+                            <td>Minus: Schulden tilgen</td>
+                            <td id="breakdownSchulden2" style="color: var(--color-danger);">-450.000 €</td>
+                        </tr>
+                        <tr class="total">
+                            <td>= Privat verfügbar</td>
+                            <td id="breakdownPrivatVerfuegbar2">925.000 €</td>
+                        </tr>
+                        <tr class="section-header">
+                            <td colspan="2">GmbH (50%)</td>
+                        </tr>
+                        <tr>
+                            <td>GmbH-Anteil (50%)</td>
+                            <td id="breakdownGmbhAnteil2">1.375.000 €</td>
+                        </tr>
+                        <tr>
+                            <td>Minus: Steuern (30%)</td>
+                            <td id="breakdownGmbhSteuern2" style="color: var(--color-danger);">-412.500 €</td>
+                        </tr>
+                        <tr>
+                            <td>Nach Steuern</td>
+                            <td id="breakdownGmbhNachSteuern2">962.500 €</td>
+                        </tr>
+                        <tr>
+                            <td style="color: var(--color-danger);">Ausschüttungssteuer (26,375%)</td>
+                            <td id="breakdownAusschuettung" style="color: var(--color-danger);">-253.909 €</td>
+                        </tr>
+                        <tr class="total">
+                            <td>= GmbH-Entnahme</td>
+                            <td id="breakdownGmbhVerfuegbar2" style="color: var(--color-warning);">708.591 €</td>
+                        </tr>
+                        <tr class="section-header" style="border-top: 2px solid var(--color-danger);">
+                            <td colspan="2" style="color: var(--color-danger);">GESAMT VERFÜGBAR</td>
+                        </tr>
+                        <tr class="total">
+                            <td>Dir gesamt verfügbar</td>
+                            <td id="breakdownGesamt2" style="color: var(--color-danger);">1.633.591 €</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-box success">
+            <p><strong>💰 VORTEIL SPARDOSEN-PRINZIP:</strong> Du sparst <span id="vorteilText">253.909 €</span> durch das Darlehen statt Ausschüttung! Jährliche GmbH-Kosten (ca. 1.900 €) nach 10 Jahren = 19.000 € → Nettogewinn: <span id="nettogewinn">234.909 €</span></p>
+        </div>
+
+        <div class="info-box">
+            <p><strong>💡 ERKLÄRUNG:</strong> Beim <strong>Spardosen-Modell</strong> bleibt die GmbH bestehen und gewährt dir ein zinsloses Darlehen (steuerfrei). Bei <strong>Vollentnahme</strong> wird die GmbH liquidiert und du zahlst 26,375% Ausschüttungssteuer (Abgeltungssteuer + Soli).</p>
+        </div>
+    </div>
+
+    <script>
+        const GRUNDSTUECKSFLAECHE = 1598;
+        const AUSSCHUETTUNGSSTEUER = 0.26375; // 25% Abgeltungssteuer + 5,5% Soli darauf
+
+        const verkaufspreisInput = document.getElementById('verkaufspreis');
+        const verkaufspreisRange = document.getElementById('verkaufspreisRange');
+        const schuldenInput = document.getElementById('schulden');
+        const schuldenRange = document.getElementById('schuldenRange');
+
+        verkaufspreisRange.addEventListener('input', (e) => {
+            verkaufspreisInput.value = e.target.value;
+            berechnen();
+        });
+
+        verkaufspreisInput.addEventListener('input', (e) => {
+            verkaufspreisRange.value = e.target.value;
+            berechnen();
+        });
+
+        schuldenRange.addEventListener('input', (e) => {
+            schuldenInput.value = e.target.value;
+            berechnen();
+        });
+
+        schuldenInput.addEventListener('input', (e) => {
+            schuldenRange.value = e.target.value;
+            berechnen();
+        });
+
+        function formatEuro(betrag) {
+            return new Intl.NumberFormat('de-DE', {
+                style: 'currency',
+                currency: 'EUR',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }).format(betrag);
+        }
+
+        function berechnen() {
+            const verkaufspreis = parseFloat(verkaufspreisInput.value);
+            const schulden = parseFloat(schuldenInput.value);
+
+            const preisProQm = Math.round(verkaufspreis / GRUNDSTUECKSFLAECHE);
+            
+            const privatAnteil = verkaufspreis * 0.5;
+            const privatNachSchulden = privatAnteil - schulden;
+
+            const gmbhAnteil = verkaufspreis * 0.5;
+            const gmbhSteuern = gmbhAnteil * 0.3;
+            const gmbhNachSteuern = gmbhAnteil - gmbhSteuern;
+
+            // Spardosen-Modell
+            const gmbhDarlehen = gmbhNachSteuern;
+            const gesamtSpardosen = privatNachSchulden + gmbhDarlehen;
+
+            // Vollentnahme-Modell
+            const ausschuettungssteuer = gmbhNachSteuern * AUSSCHUETTUNGSSTEUER;
+            const vollentnahme = gmbhNachSteuern - ausschuettungssteuer;
+            const gesamtVollentnahme = privatNachSchulden + vollentnahme;
+
+            // Vorteil
+            const vorteil = gmbhDarlehen - vollentnahme;
+            const gmbhKosten10Jahre = 1900 * 10;
+            const nettogewinn = vorteil - gmbhKosten10Jahre;
+
+            // Hauptergebnisse
+            document.getElementById('preisProQm').textContent = preisProQm.toLocaleString('de-DE');
+            document.getElementById('gesamtSpardosen').textContent = formatEuro(gesamtSpardosen);
+            document.getElementById('privatNetto').textContent = formatEuro(privatNachSchulden);
+            document.getElementById('gmbhDarlehen').textContent = formatEuro(gmbhDarlehen);
+            document.getElementById('vollentnahme').textContent = formatEuro(vollentnahme);
+            document.getElementById('gesamtVollentnahme').textContent = formatEuro(gesamtVollentnahme);
+            document.getElementById('vorteil').textContent = formatEuro(vorteil);
+
+            // Breakdown Spardosen
+            document.getElementById('breakdownBrutto1').textContent = formatEuro(verkaufspreis);
+            document.getElementById('breakdownPrivatAnteil1').textContent = formatEuro(privatAnteil);
+            document.getElementById('breakdownSchulden1').textContent = formatEuro(-schulden);
+            document.getElementById('breakdownPrivatVerfuegbar1').textContent = formatEuro(privatNachSchulden);
+            document.getElementById('breakdownGmbhAnteil1').textContent = formatEuro(gmbhAnteil);
+            document.getElementById('breakdownGmbhSteuern1').textContent = formatEuro(-gmbhSteuern);
+            document.getElementById('breakdownGmbhNachSteuern1').textContent = formatEuro(gmbhNachSteuern);
+            document.getElementById('breakdownGmbhVerfuegbar1').textContent = formatEuro(gmbhDarlehen);
+            document.getElementById('breakdownGesamt1').textContent = formatEuro(gesamtSpardosen);
+
+            // Breakdown Vollentnahme
+            document.getElementById('breakdownBrutto2').textContent = formatEuro(verkaufspreis);
+            document.getElementById('breakdownPrivatAnteil2').textContent = formatEuro(privatAnteil);
+            document.getElementById('breakdownSchulden2').textContent = formatEuro(-schulden);
+            document.getElementById('breakdownPrivatVerfuegbar2').textContent = formatEuro(privatNachSchulden);
+            document.getElementById('breakdownGmbhAnteil2').textContent = formatEuro(gmbhAnteil);
+            document.getElementById('breakdownGmbhSteuern2').textContent = formatEuro(-gmbhSteuern);
+            document.getElementById('breakdownGmbhNachSteuern2').textContent = formatEuro(gmbhNachSteuern);
+            document.getElementById('breakdownAusschuettung').textContent = formatEuro(-ausschuettungssteuer);
+            document.getElementById('breakdownGmbhVerfuegbar2').textContent = formatEuro(vollentnahme);
+            document.getElementById('breakdownGesamt2').textContent = formatEuro(gesamtVollentnahme);
+
+            // Info-Box
+            document.getElementById('vorteilText').textContent = formatEuro(vorteil);
+            document.getElementById('nettogewinn').textContent = formatEuro(nettogewinn);
+
+            // Farbe für Spardosen-Gesamt
+            const gesamtEl = document.getElementById('gesamtSpardosen');
+            gesamtEl.className = 'result-value';
+            if (gesamtSpardosen >= 1800000) {
+                gesamtEl.classList.add('success');
+            } else if (gesamtSpardosen >= 1500000) {
+                gesamtEl.classList.add('warning');
+            } else {
+                gesamtEl.classList.add('danger');
+            }
+        }
+
+        berechnen();
+
+        // PWA Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('data:text/javascript;base64,c2VsZi5hZGRFdmVudExpc3RlbmVyKCdpbnN0YWxsJywgKGUpID0+IHsKICBzZWxmLnNraXBXYWl0aW5nKCk7Cn0pOwoKc2VsZi5hZGRFdmVudExpc3RlbmVyKCdmZXRjaCcsIChlKSA9PiB7CiAgZS5yZXNwb25kV2l0aCgKICAgIGNhY2hlcy5tYXRjaChlLnJlcXVlc3QpLnRoZW4oKHJlc3BvbnNlKSA9PiB7CiAgICAgIHJldHVybiByZXNwb25zZSB8fCBmZXRjaChlLnJlcXVlc3QpOwogICAgfSkKICApOwp9KTs=')
+                    .then(() => console.log('✅ PWA Service Worker registriert!'))
+                    .catch((err) => console.log('Service Worker Fehler:', err));
+            });
+        }
+
+        // PWA Install Prompt
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            console.log('💡 PWA kann installiert werden!');
+        });
+    </script>
+</body>
+</html>
